@@ -1,30 +1,117 @@
 import { Card, CardContent, Button, Typography, TextField, MenuItem, Snackbar, Alert, Stack, CardActions } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useFieldArray, useForm } from 'react-hook-form';
+
 const contractTemplates = [
-  { label: "Contract Template 1", value: "template1" },
-  { label: "Contract Template 2", value: "template2" },
+  { label: "Lending contract", value: "borrow" },
+  { label: "Contract Template", value: "template" },
   // Add more contract templates as needed
 ];
+
+interface Fields {
+  label: string;
+  name: string;
+  required: boolean;
+  type: string;
+}
+
+interface Forms {
+  [key: string]: Fields[]
+}
+
+const formSchema: Forms = {
+  borrow: [
+    {
+      label: "Date",
+      name: "Date",
+      required: true,
+      type: "TextBox"
+    },
+    {
+      label: "Borrower Name",
+      name: "Borrower_Name",
+      required: true,
+      type: "TextBox"
+    },
+    {
+      label: "Lender Name",
+      name: "Lender_Name",
+      required: true,
+      type: "TextBox"
+    },
+    {
+      label: "Amount",
+      name: "Amount",
+      required: true,
+      type: "TextBox"
+    },
+    {
+      label: "Interest Rate",
+      name: "Interest_Rate",
+      required: true,
+      type: "TextBox"
+    },
+    {
+      label: "Due Date",
+      name: "Due_Date",
+      required: true,
+      type: "TextBox"
+    },
+    {
+      label: "Day of Month",
+      name: "Day_of_Month",
+      required: true,
+      type: "TextBox"
+    },
+    {
+      label: "Late Fee",
+      name: "Late_Fee",
+      required: true,
+      type: "TextBox"
+    },
+    {
+      label: "State",
+      name: "State",
+      required: true,
+      type: "TextBox"
+    }
+  ],
+  template: [
+    {
+      label: 'Borrower Name',
+      name: 'borrowerName',
+      required: true,
+      type: 'text',
+    }
+  ]
+  // Add more fields as needed
+
+};
+
 export const CreateLegalDoc = () => {
-  const [contractTemplate, setContractTemplate] = useState(""); // State for storing the selected contract template
-  const [signerAddress, setSignerAddress] = useState(""); // State for storing the signer address
+  const [contractTemplate, setContractTemplate] = useState("borrow"); // State for storing the selected contract template
   const [openSnackbar, setOpenSnackbar] = useState(false); // State for controlling the visibility of the success popup
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
 
-    // Perform any necessary form validation or data handling here
+  const { reset, getValues, register, handleSubmit } = useForm();
+  useEffect(() => {
+    reset()
+  }, [contractTemplate])
 
-    // Show the success popup
+  const onSubmit = (data: any) => {
+    // Handle form submission
+    const values = getValues();
+    console.log(values)
     setOpenSnackbar(true);
   };
+
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Card sx={{ marginTop: "16px" }}>
           <CardContent component={Stack} gap={1}>
             <TextField
               select
-              label="Contract Template"
+              label="Select contract"
               value={contractTemplate}
               onChange={(event) => setContractTemplate(event.target.value)}
             >
@@ -34,11 +121,14 @@ export const CreateLegalDoc = () => {
                 </MenuItem>
               ))}
             </TextField>
-            <TextField
-              label="Signer Address"
-              value={signerAddress}
-              onChange={(event) => setSignerAddress(event.target.value)}
-            />
+            {formSchema[contractTemplate].map((field, index) => (
+              <TextField
+                key={index}
+                label={field.label}
+                type={field.type}
+                {...register(field.name)}
+              />
+            ))}
           </CardContent>
           <CardActions sx={{ padding: '16px', paddingTop: 0 }}>
             <Button fullWidth variant="contained" type="submit">Submit</Button>
