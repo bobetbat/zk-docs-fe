@@ -3,9 +3,6 @@ import Head from 'next/head';
 import { Layout } from '../components/Layout';
 import { useRouter } from 'next/router';
 import { Button, Container, Stack, Typography } from '@mui/material';
-import { LoginButton } from '../components/LoginButton';
-import { LegalDocsList } from '../components/LegalDocsList';
-import { signRequests } from '../config/mocks';
 import { CreateLegalDoc } from '../components/CreateLegalDoc';
 
 const Create: NextPage = () => {
