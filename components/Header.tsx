@@ -20,8 +20,8 @@ export const Header: React.FC = () => {
         >
           <Button onClick={() => router.push('/')}>
             <Image
-              src="/logo-full.svg"
-              width={130}
+              src="/logo.png"
+              width={50}
               height={50}
               alt="logo"
             />
