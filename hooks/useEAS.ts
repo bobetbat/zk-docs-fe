@@ -6,7 +6,7 @@ import { publicProvider } from '@wagmi/core/providers/public'
 const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"
 
 export const useEAS = () => {
-  const schemaEncoder = new SchemaEncoder("bytes32 hashOfDocument,string note");
+  const schemaEncoder = new SchemaEncoder("bytes32 hashOfDocument, string note");
   const eas = new EAS(EASContractAddress);
   const [data, setData] = useState<SignedOffchainAttestation>()
   const { data: signer } = useWalletClient()
@@ -14,11 +14,11 @@ export const useEAS = () => {
   
   
   console.log('eas', eas)
-  // eas.connect(provider as any);
+  eas.connect(provider as any);
   // Initialize SchemaEncoder with the schema string
   const encodedData = schemaEncoder.encodeData([
-    { name: "hashOfDocument", value: 1, type: "uint256" },
-    { name: "note", value: 1, type: "uint8" },
+    { name: "hashOfDocument", value: "0xdef835095c9298ef045106da476770358fb0c37d7ed13a6108b6dfd4a0282f54", type: "bytes32" },
+    { name: "note", value: "1", type: "string" },
   ]);
 
   const getAttestation = useCallback(async () => {
