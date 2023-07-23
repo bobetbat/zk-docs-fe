@@ -1,8 +1,9 @@
-import { Card, CardContent, Stack, Typography } from '@mui/material';
+import { Button, Card, CardContent, Stack, Typography } from '@mui/material';
 import { ReactNode, useEffect, useState } from 'react';
 import { Footer } from './Footer';
 import { Header } from './Header';
 import { useAccount } from 'wagmi';
+import useCoreContract from '../hooks/useCoreContract';
 
 type Props = {
   children: ReactNode;
@@ -13,6 +14,7 @@ type Props = {
 export const Layout: React.FC<Props> = ({ children, footer, header }) => {
   const { isConnected } = useAccount()
   const [showPage, setShowPage] = useState(false)
+  const { sendTx } = useCoreContract();
 
   useEffect(() => {
     setShowPage(isConnected)
@@ -38,6 +40,7 @@ export const Layout: React.FC<Props> = ({ children, footer, header }) => {
             </Card>
           }
         </Stack>
+        <Button onClick={sendTx}>Send test contract Creation Tx</Button>
       </main>
 
       {footer && <Footer />}
