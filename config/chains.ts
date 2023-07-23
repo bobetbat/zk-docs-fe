@@ -75,3 +75,19 @@ export const neonTestnet: Chain = {
   }
 }
 
+export const contracts = {
+  // Sepolia:
+  11155111: {
+    Core: "0x02CcFA1f950CDBde440a035025677F4d170abebF",
+    Scheduler: "0x32E2735553C54b19938907e387c47f36B7B89cC8"
+  },
+  // Celo:
+  44787: {
+    Core: "0x32E2735553C54b19938907e387c47f36B7B89cC8",
+    Scheduler: "0xc7256041d9f92Ca126c1140b9359d63f8C4F703b"
+  }
+}
+// munbai
+// Core 0x32E2735553C54b19938907e387c47f36B7B89cC8
+// Scheduler 0xc7256041d9f92Ca126c1140b9359d63f8C4F703b
+
