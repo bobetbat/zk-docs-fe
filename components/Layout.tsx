@@ -1,8 +1,10 @@
-import { Card, CardContent, Stack, Typography } from '@mui/material';
+import { Button, Card, CardContent, Stack, Typography } from '@mui/material';
 import { ReactNode, useEffect, useState } from 'react';
 import { Footer } from './Footer';
 import { Header } from './Header';
 import { useAccount } from 'wagmi';
+import { useEAS } from '../hooks/useEAS';
+import { ImageUpload } from './ImageUpload';
 
 type Props = {
   children: ReactNode;
@@ -13,10 +15,14 @@ type Props = {
 export const Layout: React.FC<Props> = ({ children, footer, header }) => {
   const { isConnected } = useAccount()
   const [showPage, setShowPage] = useState(false)
+  const { data, getAttestation } = useEAS();
+  const [image, setImage] = useState()
+  console.log(data)
+  console.log('getAttestation')
 
   useEffect(() => {
-    setShowPage(isConnected)
-  }, [isConnected])
+    setShowPage(isConnected && !!data)
+  }, [isConnected, data])
 
   return (
     <>
@@ -32,15 +38,19 @@ export const Layout: React.FC<Props> = ({ children, footer, header }) => {
             gap: 4
           }}
         >
-          {showPage ? children :
-            <Card sx={{ alignSelf: "center", maxWidth: '80vw', marginTop: "30vh", p: "16px", backgroundColor: "#f0f0f0" }}>
-              Connect your wallet to see what documents has been requested for your signature.
-            </Card>
-          }
+          {showPage ? children : ''}
+          {!isConnected && !data ? <Card sx={{ alignSelf: "center", maxWidth: '80vw', marginTop: "30vh", p: "16px", backgroundColor: "#f0f0f0" }}>
+            Connect your wallet to see what documents has been requested for your signature.
+          </Card> : ''}
+          {isConnected && !data ? <>
+            <Typography variant='h5'>Upload sign</Typography>
+            <ImageUpload onChange={(data) => setImage(data)} />
+            <Button onClick={() => getAttestation(image, 'note')}>Sign</Button>
+          </> : ''}
         </Stack>
       </main>
 
-      {footer && <Footer />}
+      {footer && <Footer />}ƒ
     </>
   );
 }

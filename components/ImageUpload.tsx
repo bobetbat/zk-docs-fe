@@ -19,9 +19,9 @@ export const ImageUpload: React.FC<{ onChange: (v:any) => void }> = ({ onChange 
         onAdd={handleDrop}
         fileObjects={[]}
       />
-      <Button sx={{ mt: 1 }} variant="contained" color="primary">
+      {/* <Button sx={{ mt: 1 }} variant="contained" color="primary">
         Upload
-      </Button>
+      </Button> */}
     </div>
   );
 };

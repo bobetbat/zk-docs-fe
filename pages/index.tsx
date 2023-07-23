@@ -11,10 +11,6 @@ import { ImageUpload } from '../components/ImageUpload';
 
 const Home: NextPage = () => {
   const router = useRouter();
-  const { data, eas, getAttestation } = useEAS();
-  const [image, setImage] = useState()
-  console.log(data)
-  console.log('getAttestation')
 
   return (
     <>
@@ -30,8 +26,6 @@ const Home: NextPage = () => {
 
       <Layout header footer>
         <Container>
-          <ImageUpload onChange={(data) => setImage(data)} />
-          <Button onClick={() => getAttestation(image, 'note')}>hello</Button>
           <Typography variant='h4' >Heya! We where found some usefull documents waiting to be signed by you.</Typography>
           <LegalDocsList signRequests={signRequests} />
         </Container>
