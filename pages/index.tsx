@@ -6,11 +6,13 @@ import { Button, Container, Typography } from '@mui/material';
 import { LegalDocsList } from '../components/LegalDocsList';
 import { signRequests } from '../config/mocks';
 import { useEAS } from '../hooks/useEAS';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { ImageUpload } from '../components/ImageUpload';
 
 const Home: NextPage = () => {
   const router = useRouter();
   const { data, eas, getAttestation } = useEAS();
+  const [image, setImage] = useState()
   console.log(data)
   console.log('getAttestation')
 
@@ -28,7 +30,8 @@ const Home: NextPage = () => {
 
       <Layout header footer>
         <Container>
-          <Button onClick={() => getAttestation()}>hello</Button>
+          <ImageUpload onChange={(data) => setImage(data)} />
+          <Button onClick={() => getAttestation(image, 'note')}>hello</Button>
           <Typography variant='h4' >Heya! We where found some usefull documents waiting to be signed by you.</Typography>
           <LegalDocsList signRequests={signRequests} />
         </Container>
